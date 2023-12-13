@@ -2,13 +2,12 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-import { useRouter } from "next/router";
-
 import { getAllEvents } from "@/api/events";
+import AddEventForm from "@/components/AddEventForm";
 
 export default function Page() {
   const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const fetchEvents = async () => {
     try {
@@ -22,6 +21,10 @@ export default function Page() {
   useEffect(() => {
     fetchEvents();
   }, []);
+
+  const handleAddEvent = () => {
+    setShowModal(true);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
@@ -51,6 +54,22 @@ export default function Page() {
           </div>
         ))}
       </div>
+
+      {/* modal form */}
+
+      <button
+        className="mt-6 px-4 py-2 text-white bg-blue-600 rounded-md"
+        onClick={handleAddEvent}
+      >
+        Add Event
+      </button>
+
+      {showModal && (
+        <AddEventForm
+          onClose={() => setShowModal(false)}
+          onAddEvent={fetchEvents}
+        />
+      )}
     </div>
   );
 }
