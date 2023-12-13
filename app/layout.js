@@ -16,6 +16,10 @@ export default function RootLayout({ children }) {
         <Navbar />
         {children}
       </body>
+      {/* footer */}
+      <footer className="bg-black text-white text-center text-xs p-3 absolute bottom-0 w-full">
+        <p>&copy; {new Date().getFullYear()} Eventify - All Rights Reserved</p>
+      </footer>
     </html>
   );
 }

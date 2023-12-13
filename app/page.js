@@ -5,9 +5,9 @@ export default function Home() {
   return (
     <main className="relative flex flex-col items-center justify-center w-full flex-1 px-20 text-center h-screen">
       <div className="absolute z-10 flex flex-col items-center justify-center w-full h-full">
-        <h1 className="text-6xl font-bold">Events</h1>
+        <h1 className="text-6xl font-bold">Eventify</h1>
         <p className="mt-3 text-2xl">
-          Eventify is a platform for event management.
+          Your one stop for all events and reservations
         </p>
         <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
           <a
@@ -35,7 +35,7 @@ export default function Home() {
           alt="Picture of the event"
           layout="fill"
           objectFit="cover"
-          className="opacity-50"
+          className="opacity-80"
         />
       </div>
     </main>

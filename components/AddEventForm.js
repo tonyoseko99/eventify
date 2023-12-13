@@ -72,7 +72,7 @@ function AddEventForm({ onClose, onAddEvent }) {
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-4 rounded-lg flex flex-col justify-center"
+        className="bg-white p-4 rounded-lg flex flex-col justify-center w-1/3"
       >
         <h1 className="text-2xl font-bold mb-4 text-black">Add Event</h1>
 
@@ -82,6 +82,7 @@ function AddEventForm({ onClose, onAddEvent }) {
           id="nameInput"
           placeholder="Name"
           value={name}
+          required
           onChange={(e) => setName(e.target.value)}
           className="mb-2 p-2 border border-gray-300 rounded text-black"
         />
@@ -134,6 +135,7 @@ function AddEventForm({ onClose, onAddEvent }) {
           <option value="TECHNOLOGY">TECHNOLOGY</option>
           <option value="SPORTS">SPORTS</option>
           <option value="BUSINESS">BUSINESS</option>
+          <option value="ENTERTAINMENT">ENTERTAINMENT</option>
           <option value="OTHER">OTHER</option>
         </select>
         <textarea

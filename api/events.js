@@ -22,3 +22,10 @@ export const addEvent = async (event) => {
   });
   return response.json();
 }
+
+export const deleteEvent = async (id) => {
+  const response = await fetch(`${BASE_URL}/delete/${id}`, {
+    method: "DELETE",
+  });
+  return response.json();
+}
