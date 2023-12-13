@@ -1,20 +1,59 @@
 import React, { useState } from "react";
+import { addEvent } from "@/api/events";
+import { format } from "date-fns";
 
-function AddEventForm({ onClose, onAddEvent}) {
-  const [name, setName] = useState("");
-  const [image, setImage] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [venue, setVenue] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [showModal, setShowModal] = useState(false);
+function AddEventForm({ onClose, onAddEvent }) {
+  const formData = {
+    name: "",
+    image: "",
+    date: "",
+    time: "",
+    venue: "",
+    category: "",
+    description: "",
+  };
+
+  const [name, setName] = useState(formData.name);
+  const [image, setImage] = useState(formData.image);
+  const [date, setDate] = useState(formData.date);
+  const [time, setTime] = useState(formData.time);
+  const [venue, setVenue] = useState(formData.venue);
+  const [category, setCategory] = useState(formData.category);
+  const [description, setDescription] = useState(formData.description);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
 
-    // close modal
+    // convert date and time to ISO format
+    const eventDate = format(new Date(date), "yyyy-MM-dd");
+    const eventTime = format(new Date(`1970-01-01T${time}`), "HH:mm:ss");
+
+    // create event object
+    const event = {
+      name,
+      image,
+      date: eventDate,
+      time: eventTime,
+      venue,
+      category,
+      description,
+    };
+
+    // add event
+    addEvent(event)
+      .then((data) => {
+        console.log("Event added:", data);
+        onAddEvent();
+      })
+      .catch((error) => {
+        console.error("Error adding event:", error);
+        if (error.response) {
+          console.error("Response data:", error.response.data);
+        }
+      });
+
+    // close form
+    onClose();
   };
 
   return (
@@ -36,7 +75,7 @@ function AddEventForm({ onClose, onAddEvent}) {
         className="bg-white p-4 rounded-lg flex flex-col justify-center"
       >
         <h1 className="text-2xl font-bold mb-4 text-black">Add Event</h1>
-        
+
         <input
           type="text"
           name="name"
@@ -92,10 +131,10 @@ function AddEventForm({ onClose, onAddEvent}) {
           className="mb-2 p-2 border border-gray-300 rounded text-white bg-black"
         >
           <option value="">Select Category</option>
-          <option value="technology">TECHNOLOGY</option>
-          <option value="sports">SPORTS</option>
-          <option value="business">BUSINESS</option>
-          <option value="other">OTHER</option>
+          <option value="TECHNOLOGY">TECHNOLOGY</option>
+          <option value="SPORTS">SPORTS</option>
+          <option value="BUSINESS">BUSINESS</option>
+          <option value="OTHER">OTHER</option>
         </select>
         <textarea
           name="description"
