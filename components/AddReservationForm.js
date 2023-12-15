@@ -1,21 +1,17 @@
 "use client";
 import React, { useState } from "react";
+import { addReservation } from "@/api/reservations";
 
 const AddReservationForm = ({ event, onClose }) => {
-  // get event_id from event
-  const event_id = event.id;
-
   const [formData, setFormData] = useState({
     event_id: "",
     user_id: "",
     name: "",
-    address: {
-      street: "",
-      city: "",
-      state: "",
-      country: "",
-      zipCode: "",
-    },
+    street: "",
+    city: "",
+    state: "",
+    country: "",
+    zipCode: "",
   });
 
   const handleInputChange = (e) => {
@@ -23,19 +19,36 @@ const AddReservationForm = ({ event, onClose }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      address: { ...formData.address, [name]: value },
-    });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Implement logic to submit the reservation data
-    // (e.g., API call)
-    console.log("Submitted reservation:", formData);
+
+    // create a reservation object
+    const reservation = {
+      event_id: event.id,
+      user_id: formData.user_id,
+      name: formData.name,
+      street: formData.street,
+      city: formData.city,
+      state: formData.state,
+      country: formData.country,
+      zipCode: formData.zipCode,
+    };
+
+    // add reservation
+    addReservation(reservation)
+      .then((data) => {
+        console.log("Reservation added:", data);
+        onAddReservation();
+      })
+      .catch((error) => {
+        console.error("Error adding reservation:", error);
+        if (error.response) {
+          console.error("Response data:", error.response.data);
+        }
+      });
+
+    // close form
+    onClose();
   };
 
   return (
@@ -52,15 +65,18 @@ const AddReservationForm = ({ event, onClose }) => {
         alignItems: "center",
       }}
     >
-      <form onSubmit={handleSubmit} className="flex flex-col bg-white p-4 rounded-lg w-1/3">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col bg-white p-4 rounded-lg w-1/3 text-black"
+      >
         <h2 className="text-2xl font-bold mb-4">
           Add Reservation for {event.name}
         </h2>
         {/* <label htmlFor="eventId">Event:</label> */}
-        <input type="hidden" id="eventId" name="event_id" value={event_id} />
+        <input type="hidden" id="eventId" name="event_id" value={event.id} />
         {/* <label htmlFor="userId">User:</label> */}
         <input
-          type="hidden"
+          type="text"
           id="userId"
           name="user_id"
           value={formData.user_id}
@@ -75,46 +91,45 @@ const AddReservationForm = ({ event, onClose }) => {
           required
           className="border border-gray-300 rounded-md p-2 mb-2"
         />
-        <h3 className="text-lg font-bold mb-2">Address</h3>
         <label htmlFor="email">Email:</label>
         <input
           type="text"
           id="email"
-          name="address.email"
-          value={formData.address.email}
-          onChange={handleAddressChange}
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
           className="border border-gray-300 rounded-md p-2 mb-2"
         />
         <label htmlFor="state">Phone:</label>
         <input
           type="text"
           id="phone"
-          name="address.phone"
-          value={formData.address.phone}
-          onChange={handleAddressChange}
+          name="phone"
+          value={formData.phone}
+          onChange={handleInputChange}
           className="border border-gray-300 rounded-md p-2 mb-2"
         />
         <label htmlFor="city">City:</label>
         <input
           type="text"
           id="city"
-          name="address.city"
-          value={formData.address.city}
-          onChange={handleAddressChange}
+          name="city"
+          value={formData.city}
+          onChange={handleInputChange}
           className="border border-gray-300 rounded-md p-2 mb-2"
         />
         <label htmlFor="zipCode">Zip Code:</label>
         <input
           type="text"
           id="zipCode"
-          name="address.zipCode"
-          value={formData.address.zipCode}
-          onChange={handleAddressChange}
+          name="zipCode"
+          value={formData.zipCode}
+          onChange={handleInputChange}
           className="border border-gray-300 rounded-md p-2 mb-2"
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2 mb-2"
         >
           Submit Reservation
         </button>

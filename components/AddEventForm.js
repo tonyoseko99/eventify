@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { addEvent } from "@/api/events";
 import { format } from "date-fns";
