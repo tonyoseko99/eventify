@@ -38,7 +38,7 @@ const AddReservationForm = ({ event, onClose }) => {
     addReservation(reservation)
       .then((data) => {
         console.log("Reservation added:", data);
-        onAddReservation();
+        reservation();
       })
       .catch((error) => {
         console.error("Error adding reservation:", error);
@@ -74,12 +74,13 @@ const AddReservationForm = ({ event, onClose }) => {
         </h2>
         {/* <label htmlFor="eventId">Event:</label> */}
         <input type="hidden" id="eventId" name="event_id" value={event.id} />
-        {/* <label htmlFor="userId">User:</label> */}
+        <label htmlFor="userId">User:</label>
         <input
           type="text"
           id="userId"
           name="user_id"
           value={formData.user_id}
+          onChange={handleInputChange}
         />
         <label htmlFor="name">Name:</label>
         <input

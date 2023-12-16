@@ -1,51 +1,71 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function Navbar() {
+  const pathname = usePathname();
+
   const [sortOption, setSortOption] = useState("");
 
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
-    // Add your sorting logic here
   };
 
   return (
-    <nav className="bg-black p-6 text-white border-b-2 border-orange-200 items-center justify-around">
+    <nav className="bg-stone-400 p-6 text-white items-center justify-around">
       <div className="container mx-auto w-1/2">
-        <ul className="flex">
+        <ul className="flex text-xl">
           <li className="mr-6 font-bold">
-            <Link href="/">Eventify</Link>
+            <Link
+              className={`link ${pathname === "/" ? "active" : ""}`}
+              href="/"
+            >
+              Eventify
+            </Link>
           </li>
           <li className="mr-6">
-            <Link href="/events">Events</Link>
+            <Link
+              className={`link ${pathname === "/events" ? "active" : ""}`}
+              href="/events"
+            >
+              Events
+            </Link>
           </li>
           <li className="mr-6">
-            <Link href="/reservations">Reservations</Link>
+            <Link
+              className={`link ${pathname === "/booked" ? "active" : ""}`}
+              href="/booked"
+            >
+              Booked
+            </Link>
           </li>
-          <div className="flex items-center">
-            <li className="mr-6">
-              <input
-                type="text"
-                placeholder="Search"
-                className="px-2 py-1 border rounded bg-black text-white"
-              />
-            </li>
-            <li className="mr-6">
-              <select
-                value={sortOption}
-                onChange={handleSortChange}
-                className="px-2 py-1 border rounded bg-black text-white"
-              >
-                <option value="">Categories</option>
-                <option value="TECHNOLOGY">TECHNOLOGY</option>
-                <option value="SPORTS">SPORTS</option>
-                <option value="BUSINESS">BUSINESS</option>
-                <option value="ENTERTAINMENT">ENTERTAINMENT</option>
-                <option value="OTHER">OTHER</option>
-              </select>
-            </li>
-          </div>
+
+          {/* reservations */}
+          <li className="mr-6">
+            <Link
+              className={`link ${pathname === "/reservations" ? "active" : ""}`}
+              href="/reservations"
+            >
+              Reservations
+            </Link>
+          </li>
+
+          <li className="mr-6">
+            <select
+              value={sortOption}
+              onChange={handleSortChange}
+              className="px-2 py-1 border rounded bg-black text-white"
+            >
+              <option value="">Categories</option>
+              <option value="TECHNOLOGY">TECHNOLOGY</option>
+              <option value="SPORTS">SPORTS</option>
+              <option value="BUSINESS">BUSINESS</option>
+              <option value="ENTERTAINMENT">ENTERTAINMENT</option>
+              <option value="OTHER">OTHER</option>
+            </select>
+          </li>
+
           <div className="ml-auto flex items-center">
             <li className="mr-6">
               <Link href="/login">Logout</Link>
