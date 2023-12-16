@@ -8,6 +8,10 @@ import Loader from "./Loader";
 function EventList({ events, filteredEvents }) {
   const eventsToRender = filteredEvents.length > 0 ? filteredEvents : events;
 
+  const sortEvents = (events) => {
+    return [...events].sort((a, b) => a.category.localeCompare(b.category));
+  };
+
   if (eventsToRender.length === 0) return <p>No events to show</p>;
 
   return (

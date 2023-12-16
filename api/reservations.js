@@ -19,6 +19,11 @@ export const addReservation = async (reservation) => {
     },
     body: JSON.stringify(reservation),
   });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  
   return response.json();
 };
 
