@@ -1,8 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { addReservation } from "@/api/reservations";
+import { useRouter } from "next/navigation";
 
 const AddReservationForm = ({ event, onClose }) => {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     event_id: "",
     user_id: "",
@@ -38,13 +41,25 @@ const AddReservationForm = ({ event, onClose }) => {
     addReservation(reservation)
       .then((data) => {
         console.log("Reservation added:", data);
-        onAddReservation();
+        setFormData({
+          event_id: "",
+          user_id: "",
+          name: "",
+          street: "",
+          city: "",
+          state: "",
+          country: "",
+          zipCode: "",
+        });
+        router.push("/reservations");
       })
       .catch((error) => {
         console.error("Error adding reservation:", error);
         if (error.response) {
           console.error("Response data:", error.response.data);
         }
+
+        router.push("/events");
       });
 
     // close form
@@ -74,12 +89,13 @@ const AddReservationForm = ({ event, onClose }) => {
         </h2>
         {/* <label htmlFor="eventId">Event:</label> */}
         <input type="hidden" id="eventId" name="event_id" value={event.id} />
-        {/* <label htmlFor="userId">User:</label> */}
+        <label htmlFor="userId">User:</label>
         <input
           type="text"
           id="userId"
           name="user_id"
           value={formData.user_id}
+          onChange={handleInputChange}
         />
         <label htmlFor="name">Name:</label>
         <input

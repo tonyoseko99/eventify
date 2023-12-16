@@ -19,12 +19,23 @@ export const addReservation = async (reservation) => {
     },
     body: JSON.stringify(reservation),
   });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  
   return response.json();
 };
 
 export const deleteReservation = async (id) => {
-  const response = await fetch(`${BASE_URL}/delete/${id}`, {
+  const response = await fetch(`${BASE_URL}/list/${id}`, {
     method: "DELETE",
   });
+  return response.json();
+};
+
+// show all reservations made by a user
+export const getReservationsByUser = async (id) => {
+  const response = await fetch(`${BASE_URL}/list/user`);
   return response.json();
 };

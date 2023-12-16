@@ -25,3 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.active{
+  border-bottom: 2px solid rgb(var(--foreground-rgb));
+}

@@ -4,22 +4,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { getEventById } from "@/api/events";
 import AddReservationForm from "@/components/AddReservationForm";
+import Loader from "@/components/Loader";
 
 function EventPage({ params }) {
   const [event, setEvent] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getEventById(params.id).then((data) => setEvent(data));
+    setLoading(false);
   }, [params.id]);
 
   if (!event) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   const handleRegisterClick = () => {
     setShowForm(true);
   };
+
+  if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col items-center justify-center w-full flex-1 px-8 text-center">
@@ -27,14 +32,14 @@ function EventPage({ params }) {
       <div className="flex flex-col items-center max-w-4xl mt-6 sm:w-full">
         <div
           key={event.id}
-          className="flex flex-col p-6 mt-6 text-left shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
+          className="flex flex-col sm:flex-row p-6 mt-6 text-left shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
         >
-          <div className="mb-4">
+          <div className="mb-4 sm:mr-6">
             <Image
               src={event.image}
               alt="Picture of the event"
-              width={800}
-              height={400}
+              width={500}
+              height={100}
               className="rounded-md"
             />
           </div>
