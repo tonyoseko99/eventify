@@ -12,6 +12,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   const fetchEvents = async () => {
     try {
@@ -25,6 +26,8 @@ export default function Page() {
 
   useEffect(() => {
     fetchEvents();
+    const userRole = localStorage.getItem("role");
+    setLoggedInUser(userRole);
   }, []);
 
   // search events
@@ -105,12 +108,16 @@ export default function Page() {
           </select>
         </div>
 
-        <button
-          className="mt-6 px-6 py-3 text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-colors"
-          onClick={handleAddEvent}
-        >
-          Add Event
-        </button>
+        {/* add event button */}
+        {/* check if user role === ADMIN, only ADMIN can add event */}
+        {loggedInUser === "ADMIN" && (
+          <button
+            className="mt-6 px-6 py-3 text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-colors"
+            onClick={handleAddEvent}
+          >
+            Add Event
+          </button>
+        )}
       </div>
       <div className="flex flex-col items-center justify-between w-1/2 flex-1 px-20 text-center">
         <EventList events={events} filteredEvents={searchEvents} />
