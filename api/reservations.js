@@ -36,6 +36,6 @@ export const deleteReservation = async (id) => {
 
 // show all reservations made by a user
 export const getReservationsByUser = async (id) => {
-  const response = await fetch(`${BASE_URL}/list/user`);
+  const response = await fetch(`${BASE_URL}/list/users/${id}`);
   return response.json();
 };
