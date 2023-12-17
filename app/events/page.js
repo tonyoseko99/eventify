@@ -24,9 +24,10 @@ export default function Page() {
     }
   };
 
+  const userRole = localStorage.getItem("role");
+
   useEffect(() => {
     fetchEvents();
-    const userRole = localStorage.getItem("role");
     setLoggedInUser(userRole);
   }, []);
 
@@ -119,8 +120,8 @@ export default function Page() {
           </button>
         )}
       </div>
-      <div className="flex flex-col items-center justify-between w-1/2 flex-1 px-20 text-center">
-        <EventList events={events} filteredEvents={searchEvents} />
+      <div className="flex flex-col items-center justify-between w-full flex-1 px-20 text-center">
+        <EventList events={events} filteredEvents={searchEvents} userRole={userRole}/>
         {/* modal form */}
         {showModal && (
           <AddEventForm

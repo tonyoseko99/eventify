@@ -1,19 +1,19 @@
 "use client";
 import { useState } from "react";
+import { Alert } from "reactstrap";
 import { addReservation } from "@/api/reservations";
 import { useRouter } from "next/navigation";
 
-const AddReservationForm = ({ event, onClose }) => {
+const AddReservationForm = ({ event, onClose, userId }) => {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
     event_id: "",
     user_id: "",
     name: "",
-    street: "",
+    email: "",
+    phone: "",
     city: "",
-    state: "",
-    country: "",
     zipCode: "",
   });
 
@@ -28,39 +28,35 @@ const AddReservationForm = ({ event, onClose }) => {
     // create a reservation object
     const reservation = {
       event_id: event.id,
-      user_id: formData.user_id,
+      user_id: userId,
       name: formData.name,
-      street: formData.street,
+      email: formData.email,
+      phone: formData.phone,
       city: formData.city,
-      state: formData.state,
-      country: formData.country,
       zipCode: formData.zipCode,
     };
 
     // add reservation
-    addReservation(reservation)
-      .then((data) => {
-        console.log("Reservation added:", data);
-        setFormData({
-          event_id: "",
-          user_id: "",
-          name: "",
-          street: "",
-          city: "",
-          state: "",
-          country: "",
-          zipCode: "",
-        });
-        router.push("/reservations");
-      })
-      .catch((error) => {
-        console.error("Error adding reservation:", error);
-        if (error.response) {
-          console.error("Response data:", error.response.data);
-        }
-
-        router.push("/events");
+    try {
+      const data = addReservation(reservation);
+      console.log("Reservation added:", data);
+      setFormData({
+        event_id: "",
+        user_id: "",
+        name: "",
+        email: "",
+        phone: "",
+        city: "",
+        zipCode: "",
       });
+      router.push("/booked");
+    } catch (error) {
+      console.error("Error adding reservation:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+      }
+      router.push("/events");
+    }
 
     // close form
     onClose();
@@ -89,14 +85,8 @@ const AddReservationForm = ({ event, onClose }) => {
         </h2>
         {/* <label htmlFor="eventId">Event:</label> */}
         <input type="hidden" id="eventId" name="event_id" value={event.id} />
-        <label htmlFor="userId">User:</label>
-        <input
-          type="text"
-          id="userId"
-          name="user_id"
-          value={formData.user_id}
-          onChange={handleInputChange}
-        />
+        {/* <label htmlFor="userId">User:</label> */}
+        <input type="hidden" id="userId" name="user_id" value={userId} />
         <label htmlFor="name">Name:</label>
         <input
           type="text"
