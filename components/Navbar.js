@@ -75,14 +75,26 @@ function Navbar() {
                   Events
                 </Link>
               </li>
-              <li className="mr-6">
-                <Link
-                  className={`link ${pathname === "/booked" ? "active" : ""}`}
-                  href="/booked"
-                >
-                  Booked
-                </Link>
-              </li>
+              {isUser && (
+                <li className="mr-6">
+                  <Link
+                    className={`link ${pathname === "/booked" ? "active" : ""}`}
+                    href="/booked"
+                  >
+                    Booked
+                  </Link>
+                </li>
+              )}
+              {isAdmin && (
+                <li className="mr-6">
+                  <Link
+                    className={`link ${pathname === "/reservations" ? "active" : ""}`}
+                    href="/reservations"
+                  >
+                    Reservations
+                  </Link>
+                </li>
+              )}
             </>
           )}
           <div className="ml-auto flex items-center">
