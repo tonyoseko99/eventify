@@ -70,17 +70,13 @@ function EditEventForm({ event, showModal, setShowModal }) {
         alignItems: "center",
       }}
     >
+      
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-white p-6 rounded-lg flex flex-col justify-center w-1/3 shadow-lg"
       >
+        <h1 className="text-2xl font-bold mb-4 text-black">Edit Event</h1>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="id"
-          >
-            ID:
-          </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             readOnly
@@ -148,7 +144,7 @@ function EditEventForm({ event, showModal, setShowModal }) {
             id="categoryInput"
             value={formData.category}
             onChange={handleInputChange}
-            className="mb-2 p-2 border border-gray-300 rounded text-white bg-black"
+            className="mb-2 p-2 border border-gray-300 rounded text-black bg-gray-300 w-full"
           >
             <option value="">Select Category</option>
             <option value="TECHNOLOGY">Technology</option>
@@ -206,14 +202,14 @@ function EditEventForm({ event, showModal, setShowModal }) {
         </div>
 
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-500 text-white px-4 py-2 rounded mb-2 hover:bg-blue-700 transition-colors duration-200"
           type="submit"
         >
           Update Event
         </button>
 
         <button
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors duration-200"
           onClick={() => setShowModal(false)}
         >
           Cancel

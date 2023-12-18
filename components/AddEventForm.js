@@ -73,7 +73,7 @@ function AddEventForm({ onClose, onAddEvent }) {
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-4 rounded-lg flex flex-col justify-center w-1/3"
+        className="bg-white p-6 rounded-lg flex flex-col justify-center w-1/3 shadow-lg"
       >
         <h1 className="text-2xl font-bold mb-4 text-black">Add Event</h1>
 
@@ -130,7 +130,7 @@ function AddEventForm({ onClose, onAddEvent }) {
           id="categoryInput"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="mb-2 p-2 border border-gray-300 rounded text-white bg-black"
+          className="mb-2 p-2 border border-gray-300 rounded text-black bg-gray-300"
         >
           <option value="">Select Category</option>
           <option value="TECHNOLOGY">TECHNOLOGY</option>
@@ -149,7 +149,7 @@ function AddEventForm({ onClose, onAddEvent }) {
         ></textarea>
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded mb-2"
+          className="bg-blue-500 text-white px-4 py-2 rounded mb-2 hover:bg-blue-700 transition-colors duration-200"
         >
           Submit
         </button>
@@ -157,7 +157,7 @@ function AddEventForm({ onClose, onAddEvent }) {
         <button
           type="button"
           onClick={onClose}
-          className="bg-gray-500 text-white px-4 py-2 rounded"
+          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors duration-200"
         >
           Cancel
         </button>
