@@ -1,13 +1,20 @@
 import React, { useState } from "react";
-import { editEvent } from "@/api/events";
+import { addEvent } from "@/api/events";
 import { id } from "date-fns/locale";
+import { useRouter } from "next/navigation";
 
-function EditEventForm({ event, onClose }) {
+function EditEventForm({ event, showModal, setShowModal }) {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     id: event.id,
     name: event.name,
     date: event.date,
-    location: event.venue,
+    venue: event.venue,
+    category: event.category,
+    description: event.description,
+    image: event.image,
+    time: event.time,
   });
 
   const handleInputChange = (e) => {
@@ -18,20 +25,35 @@ function EditEventForm({ event, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    editEvent(formData)
-      .then(() => {
-        setEvents((events) => {
-          const index = events.findIndex((event) => event.id === formData.id);
-          const newEvents = [...events];
-          newEvents[index] = formData;
-          return newEvents;
-        });
-        console.log("Event updated", formData);
-        onClose();
+
+    // create event object
+    const updatedEvent = {
+      id: formData.id,
+      name: formData.name,
+      date: formData.date,
+      venue: formData.venue,
+      category: formData.category,
+      description: formData.description,
+      image: formData.image,
+      time: formData.time,
+    };
+
+    // add event
+    addEvent(updatedEvent)
+      .then((data) => {
+        console.log("Event added:", data);
+        router.push("/events");
+        window.location.reload();
       })
       .catch((error) => {
-        console.error("Error updating event:", error);
+        console.error("Error adding event:", error);
+        if (error.response) {
+          console.error("Response data:", error.response.data);
+        }
       });
+
+    // close form
+    setShowModal(false);
   };
 
   return (
@@ -53,7 +75,6 @@ function EditEventForm({ event, onClose }) {
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <div className="mb-4">
-          {/* Add other input fields for other event properties here */}
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="id"
@@ -63,7 +84,7 @@ function EditEventForm({ event, onClose }) {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             readOnly
-            type="text"
+            type="hidden"
             name="id"
             value={formData.id}
           />
@@ -82,6 +103,61 @@ function EditEventForm({ event, onClose }) {
             onChange={handleInputChange}
           />
         </div>
+        {/* image */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="image"
+          >
+            Image:
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            name="image"
+            value={formData.image}
+            onChange={handleInputChange}
+          />
+        </div>
+        {/* description */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="location"
+          >
+            Description:
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+          />
+        </div>
+        {/* category */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="category"
+          >
+            Category:
+          </label>
+          <select
+            name="category"
+            id="categoryInput"
+            value={formData.category}
+            onChange={handleInputChange}
+            className="mb-2 p-2 border border-gray-300 rounded text-white bg-black"
+          >
+            <option value="">Select Category</option>
+            <option value="TECHNOLOGY">Technology</option>
+            <option value="SPORTS">Sports</option>
+            <option value="BUSINESS">Business</option>
+            <option value="ENTERTAINMENT">Entertainment</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -97,22 +173,38 @@ function EditEventForm({ event, onClose }) {
             onChange={handleInputChange}
           />
         </div>
+        {/* time */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="time"
+          >
+            Time:
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="time"
+            name="time"
+            value={formData.time}
+            onChange={handleInputChange}
+          />
+        </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="location"
           >
-            Location:
+            Venue:
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
-            name="location"
-            value={formData.location}
+            name="venue"
+            value={formData.venue}
             onChange={handleInputChange}
           />
         </div>
-        {/* Add other input fields for other event properties here */}
+
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
@@ -122,7 +214,7 @@ function EditEventForm({ event, onClose }) {
 
         <button
           className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={onClose}
+          onClick={() => setShowModal(false)}
         >
           Cancel
         </button>

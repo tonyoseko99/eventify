@@ -4,8 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAllEvents, deleteEvent } from "@/api/events";
 import Loader from "./Loader";
+import EditEventForm from "./EditEventForm";
 
 function EventList({ events, filteredEvents, userRole }) {
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleEditClick = () => {
+    setShowModal(true);
+  };
+
+  // if (loading) return <Loader />;
+
   const eventsToRender = filteredEvents.length > 0 ? filteredEvents : events;
 
   const sortEvents = (events) => {
@@ -28,59 +38,71 @@ function EventList({ events, filteredEvents, userRole }) {
   return (
     <div className="flex flex-wrap justify-center max-w-4xl mt-6 sm:w-full">
       {userRole === "ADMIN" ? (
-        <table className="w-full bg-white shadow-lg rounded-lg striped">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="px-6 py-3 text-center font-bold text-gray-600">
-                Name
-              </th>
-              <th className="px-6 py-3 text-center font-bold text-gray-600">
-                Description
-              </th>
-              <th className="px-6 py-3 text-center font-bold text-gray-600">
-                Date
-              </th>
-              <th className="px-6 py-3 text-center font-bold text-gray-600">
-                Category
-              </th>
-              <th className="px-6 py-3 text-center font-bold text-gray-600">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {eventsToRender.map((event) => (
-              <tr
-                key={event.id}
-                className="border-b border-gray-200 hover:bg-gray-100"
-              >
-                <td className="px-6 py-4 text-left text-gray-700 truncate">
-                  {event.name}
-                </td>
-                <td className="px-6 py-4 text-left text-gray-700 truncate">
-                  {event.description}
-                </td>
-                <td className="px-6 py-4 text-left text-gray-700 truncate">
-                  {event.date}
-                </td>
-                <td className="px-6 py-4 text-left text-gray-700 truncate">
-                  {event.category}
-                </td>
-                <td className="px-6 py-4 inline-flex space-x-2">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline-blue">
-                    <i class="fa fa-pencil-alt"></i> Edit
-                  </button>
-                  <button
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline-red"
-                    onClick={() => handleDelete(event.id)}
-                  >
-                    <i className="fa fa-trash-alt"></i> Delete
-                  </button>
-                </td>
+        <>
+          <table className="w-full bg-white shadow-lg rounded-lg striped">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="px-6 py-3 text-center font-bold text-gray-600">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-center font-bold text-gray-600">
+                  Description
+                </th>
+                <th className="px-6 py-3 text-center font-bold text-gray-600">
+                  Date
+                </th>
+                <th className="px-6 py-3 text-center font-bold text-gray-600">
+                  Category
+                </th>
+                <th className="px-6 py-3 text-center font-bold text-gray-600">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {eventsToRender.map((event) => (
+                <tr
+                  key={event.id}
+                  className="border-b border-gray-200 hover:bg-gray-100"
+                >
+                  <td className="px-6 py-4 text-left text-gray-700 truncate">
+                    {event.name}
+                  </td>
+                  <td className="px-6 py-4 text-left text-gray-700 truncate">
+                    {event.description}
+                  </td>
+                  <td className="px-6 py-4 text-left text-gray-700 truncate">
+                    {event.date}
+                  </td>
+                  <td className="px-6 py-4 text-left text-gray-700 truncate">
+                    {event.category}
+                  </td>
+                  <td className="px-6 py-4 inline-flex space-x-2">
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline-blue"
+                      onClick={() => handleEditClick(event.id)}
+                    >
+                      <i className="fa fa-pencil-alt"></i> Edit
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline-red"
+                      onClick={() => handleDelete(event.id)}
+                    >
+                      <i className="fa fa-trash-alt"></i> Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {showModal && (
+            <EditEventForm
+              showModal={showModal}
+              setShowModal={setShowModal}
+              event={eventsToRender[0]}
+            />
+          )}
+        </>
       ) : (
         eventsToRender.map((event) => (
           <Link href={`/events/${event.id}`} key={event.id}>
