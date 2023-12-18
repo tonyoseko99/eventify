@@ -77,11 +77,8 @@ function ReservationList() {
                     className="text-blue-500 mr-2"
                     onClick={() => handleDelete(reservation.id)}
                   >
-                    Delete
+                    Remove
                   </button>
-                  <Link href={`/reservations/${reservation.id}/edit`}>
-                    <button className="text-blue-500">Edit</button>
-                  </Link>
                 </td>
               </tr>
             ))

@@ -11,9 +11,8 @@ function EventList({ events, filteredEvents, userRole }) {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-
   const handleEditClick = (id) => {
-    const eventToEdit = eventsToRender.find(event => event.id === id);
+    const eventToEdit = eventsToRender.find((event) => event.id === id);
     setSelectedEvent(eventToEdit);
     setShowModal(true);
   };
@@ -59,6 +58,9 @@ function EventList({ events, filteredEvents, userRole }) {
                   Category
                 </th>
                 <th className="px-6 py-3 text-center font-bold text-gray-600">
+                  Ticket Price
+                </th>
+                <th className="px-6 py-3 text-center font-bold text-gray-600">
                   Actions
                 </th>
               </tr>
@@ -81,6 +83,9 @@ function EventList({ events, filteredEvents, userRole }) {
                   <td className="px-6 py-4 text-left text-gray-700 truncate">
                     {event.category}
                   </td>
+                  <td className="px-6 py-4 text-left text-gray-700 truncate">
+                    ${event.ticketPrice}.00
+                  </td>
                   <td className="px-6 py-4 inline-flex space-x-2">
                     <button
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline-blue"
@@ -99,7 +104,7 @@ function EventList({ events, filteredEvents, userRole }) {
               ))}
             </tbody>
           </table>
-          {showModal && selectedEvent &&(
+          {showModal && selectedEvent && (
             <EditEventForm
               showModal={showModal}
               setShowModal={setShowModal}
@@ -135,6 +140,13 @@ function EventList({ events, filteredEvents, userRole }) {
                     Category:
                   </span>{" "}
                   {event.category}
+                </p>
+                {/* ticket price */}
+                <p className="text-gray-600 mb-2">
+                  <span className="mr-2 text-gray-400 font-light">
+                    Ticket Price:
+                  </span>{" "}
+                  ${event.ticketPrice}.00
                 </p>
                 <button className="inline-flex items-center px-4 py-2 text-base font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
                   View Event &rarr;

@@ -3,10 +3,16 @@ import { useState, useEffect } from "react";
 import { getReservationsByUser, deleteReservation } from "@/api/reservations";
 import Loader from "@/components/Loader";
 import Link from "next/link";
+import AddPaymentForm from "@/components/AddPaymentForm";
+import { Alert } from "reactstrap";
+import { is } from "date-fns/locale";
 
 function Booked() {
   const [reservations, setReservations] = useState([]);
+  const [selectedReservation, setSelectedReservation] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [isAmountPaid, setIsAmountPaid] = useState(false);
 
   const user_id = localStorage.getItem("token");
 
@@ -22,7 +28,7 @@ function Booked() {
   const fetchReservations = async () => {
     try {
       const reservations = await getReservationsByUser(user_id);
-      console.log("Reservations:", reservations);
+      console.log("Booked Reservations :", reservations);
       setReservations(reservations);
       setLoading(false);
     } catch (error) {
@@ -33,6 +39,20 @@ function Booked() {
   useEffect(() => {
     fetchReservations();
   }, []);
+
+  const handlePayment = (id) => {
+    const reservationToPay = reservations.find(
+      (reservation) => reservation.id === id
+    );
+    setSelectedReservation(reservationToPay);
+    setShowModal(true);
+  };
+
+  {
+    isAmountPaid ? (
+      <Alert color="success">Payment made successfully</Alert>
+    ) : null;
+  }
 
   if (loading) {
     return <Loader />;
@@ -81,17 +101,45 @@ function Booked() {
                   >
                     UnRSVP
                   </button>
-                  <Link
-                    className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-gray"
-                    href="/payments"
-                  >
-                    Pay
-                  </Link>
+                  {isAmountPaid ? (
+                    <>
+                      <button
+                        disabled
+                        className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-gray"
+                        // onClick={() => handlePayment(reservation.id)}
+                      >
+                        PAID
+                      </button>
+                      {/* TICKET button */}
+                      <Link
+                        href={`/ticket/${reservation.event_id.id}/${reservation.id}`}
+                      >
+                        <button className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-green">
+                          TICKET
+                        </button>
+                      </Link>
+                    </>
+                  ) : (
+                    <button
+                      className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-gray"
+                      onClick={() => handlePayment(reservation.id)}
+                    >
+                      PAY
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {showModal && (
+          <AddPaymentForm
+            setShowModal={setShowModal}
+            showModal={showModal}
+            reservation={selectedReservation}
+            setIsAmountPaid={setIsAmountPaid}
+          />
+        )}
       </div>
     </div>
   );
