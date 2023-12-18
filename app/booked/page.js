@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { getReservationsByUser, deleteReservation } from "@/api/reservations";
+import { getPaymentById } from "@/api/payment";
 import Loader from "@/components/Loader";
 import Link from "next/link";
 import AddPaymentForm from "@/components/AddPaymentForm";
@@ -8,11 +9,22 @@ import { Alert } from "reactstrap";
 import { is } from "date-fns/locale";
 
 function Booked() {
+  const [payment, setPayment] = useState({});
   const [reservations, setReservations] = useState([]);
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [isAmountPaid, setIsAmountPaid] = useState(false);
+
+  const fetchPayment = async (id) => {
+    try {
+      const payment = await getPaymentById(id);
+      console.log("Payment :", payment);
+      setPayment(payment);
+    } catch (error) {
+      console.error("Error fetching payment:", error);
+    }
+  }
 
   const user_id = localStorage.getItem("token");
 
@@ -38,6 +50,7 @@ function Booked() {
 
   useEffect(() => {
     fetchReservations();
+    fetchPayment();
   }, []);
 
   const handlePayment = (id) => {

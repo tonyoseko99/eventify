@@ -22,7 +22,9 @@ function ReservationList() {
   const handleDelete = async (id) => {
     try {
       await deleteReservation(id);
-      setReservations(reservations.filter((reservation) => reservation.id !== id));
+      setReservations(
+        reservations.filter((reservation) => reservation.id !== id)
+      );
     } catch (error) {
       console.error("Error deleting reservation:", error);
     }
@@ -34,47 +36,62 @@ function ReservationList() {
 
   if (loading) return <Loader />;
   return (
-    <div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-      <div className="flex items-center justify-between w-1/2 text-center">
-        <h1 className="text-2xl font-bold text-blue-500">
+    <div className="flex flex-wrap flex-col items-center justify-center w-1/2 mt-6 sm:w-full">
+      <div className="flex items-center justify-between w-1/2 text-center mb-4">
+        <h1 className="text-2xl font-bold ">
           Available Reservations
         </h1>
       </div>
-      <table className="table-auto mt-4 w-1/2">
-        <thead>
+      <table className="w-1/2 bg-white shadow-lg rounded-lg striped">
+        <thead className="bg-gray-200">
           <tr>
-            <th className="px-4 py-2 bg-gray-200">Name of Attendant</th>
-            <th className="px-4 py-2 bg-gray-200">Event Name</th>
-            <th className="px-4 py-2 bg-gray-200">Category</th>
-            <th className="px-4 py-2 bg-gray-200">Date</th>
-            <th className="px-4 py-2 bg-gray-200">Time</th>
-            <th className="px-4 py-2 bg-gray-200">Actions</th>
+            <th className="px-6 py-3 text-center font-bold text-gray-600">
+              Name of Attendant
+            </th>
+            <th className="px-6 py-3 text-center font-bold text-gray-600">
+              Event Name
+            </th>
+            <th className="px-6 py-3 text-center font-bold text-gray-600">
+              Category
+            </th>
+            <th className="px-6 py-3 text-center font-bold text-gray-600">
+              Date
+            </th>
+            <th className="px-6 py-3 text-center font-bold text-gray-600">
+              Time
+            </th>
+            <th className="px-6 py-3 text-center font-bold text-gray-600">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
           {reservations.length > 0 ? (
             reservations.map((reservation) => (
-              <tr key={reservation.id}>
-                <td className="border px-4 py-2">
+              <tr
+                key={reservation.id}
+                className="border-b border-gray-200 hover:bg-gray-100"
+              >
+                <td className="px-6 py-4 text-left text-gray-700 truncate">
                   <Link href={`/reservations/${reservation.id}`}>
                     <span className="text-blue-500">{reservation.name}</span>
                   </Link>
                 </td>
-                <td className="border px-4 py-2">
+                <td className="px-6 py-4 text-left text-gray-700 truncate">
                   {reservation.event_id.name}
                 </td>
-                <td className="border px-4 py-2">
+                <td className="px-6 py-4 text-left text-gray-700 truncate">
                   {reservation.event_id.category}
                 </td>
-                <td className="border px-4 py-2">
+                <td className="px-6 py-4 text-left text-gray-700 truncate">
                   {reservation.event_id.date}
                 </td>
-                <td className="border px-4 py-2">
+                <td className="px-6 py-4 text-left text-gray-700 truncate">
                   {reservation.event_id.time}
                 </td>
                 <td className="border px-4 py-2">
                   <button
-                    className="text-blue-500 mr-2"
+                    className=" mr-2"
                     onClick={() => handleDelete(reservation.id)}
                   >
                     Remove

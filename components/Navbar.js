@@ -86,14 +86,28 @@ function Navbar() {
                 </li>
               )}
               {isAdmin && (
-                <li className="mr-6">
-                  <Link
-                    className={`link ${pathname === "/reservations" ? "active" : ""}`}
-                    href="/reservations"
-                  >
-                    Reservations
-                  </Link>
-                </li>
+                <>
+                  <li className="mr-6">
+                    <Link
+                      className={`link ${
+                        pathname === "/reservations" ? "active" : ""
+                      }`}
+                      href="/reservations"
+                    >
+                      Reservations
+                    </Link>
+                  </li>
+                  <li className="mr-6">
+                    <Link
+                      className={`link ${
+                        pathname === "/payments" ? "active" : ""
+                      }`}
+                      href="/payments"
+                    >
+                      Payments
+                    </Link>
+                  </li>
+                </>
               )}
             </>
           )}

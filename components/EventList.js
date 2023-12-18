@@ -88,16 +88,16 @@ function EventList({ events, filteredEvents, userRole }) {
                   </td>
                   <td className="px-6 py-4 inline-flex space-x-2">
                     <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline-blue"
+                      className="font-bold text-blue-500"
                       onClick={() => handleEditClick(event.id)}
                     >
-                      <i className="fa fa-pencil-alt"></i> Edit
+                      Edit
                     </button>
                     <button
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline-red"
+                      className="font-bold"
                       onClick={() => handleDelete(event.id)}
                     >
-                      <i className="fa fa-trash-alt"></i> Delete
+                      Delete
                     </button>
                   </td>
                 </tr>
