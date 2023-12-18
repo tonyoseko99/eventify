@@ -27,7 +27,7 @@ function AddEventForm({ onClose, onAddEvent }) {
 
     // convert date and time to ISO format
     const eventDate = format(new Date(date), "yyyy-MM-dd");
-    const eventTime = format(new Date(`1970-01-01T${time}`), "HH:mm:ss");
+    const eventTime = format(new Date(`2023-10-01T${time}`), "HH:mm:ss");
 
     // create event object
     const event = {

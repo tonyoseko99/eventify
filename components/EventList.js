@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllEvents } from "@/api/events";
+import { getAllEvents, deleteEvent } from "@/api/events";
 import Loader from "./Loader";
 
 function EventList({ events, filteredEvents, userRole }) {
@@ -10,6 +10,17 @@ function EventList({ events, filteredEvents, userRole }) {
 
   const sortEvents = (events) => {
     return [...events].sort((a, b) => a.category.localeCompare(b.category));
+  };
+
+  const handleDelete = (id) => {
+    deleteEvent(id)
+      .then((data) => {
+        console.log("Event deleted:", data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error deleting event:", error);
+      });
   };
 
   if (eventsToRender.length === 0) return <p>No events to show</p>;
@@ -59,8 +70,11 @@ function EventList({ events, filteredEvents, userRole }) {
                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline-blue">
                     <i class="fa fa-pencil-alt"></i> Edit
                   </button>
-                  <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline-red">
-                    <i class="fa fa-trash-alt"></i> Delete
+                  <button
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline-red"
+                    onClick={() => handleDelete(event.id)}
+                  >
+                    <i className="fa fa-trash-alt"></i> Delete
                   </button>
                 </td>
               </tr>
