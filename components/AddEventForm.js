@@ -12,6 +12,7 @@ function AddEventForm({ onClose, onAddEvent }) {
     venue: "",
     category: "",
     description: "",
+    ticketPrice: "",
   };
 
   const [name, setName] = useState(formData.name);
@@ -21,6 +22,7 @@ function AddEventForm({ onClose, onAddEvent }) {
   const [venue, setVenue] = useState(formData.venue);
   const [category, setCategory] = useState(formData.category);
   const [description, setDescription] = useState(formData.description);
+  const [ticketPrice, setTicketPrice] = useState(formData.ticketPrice);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,6 +40,7 @@ function AddEventForm({ onClose, onAddEvent }) {
       venue,
       category,
       description,
+      ticketPrice,
     };
 
     // add event
@@ -147,6 +150,15 @@ function AddEventForm({ onClose, onAddEvent }) {
           onChange={(e) => setDescription(e.target.value)}
           className="mb-2 p-2 border border-gray-300 rounded text-black"
         ></textarea>
+        <input
+          type="number"
+          name="ticket_price"
+          id="ticketPriceInput"
+          placeholder="Ticket Price"
+          value={ticketPrice}
+          onChange={(e) => setTicketPrice(e.target.value)}
+          className="mb-2 p-2 border border-gray-300 rounded text-black"
+        />
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded mb-2 hover:bg-blue-700 transition-colors duration-200"

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getReservationsByUser } from "@/api/reservations";
+import { getReservationsByUser, deleteReservation } from "@/api/reservations";
 import Loader from "@/components/Loader";
 import Link from "next/link";
 
@@ -9,6 +9,15 @@ function Booked() {
   const [loading, setLoading] = useState(true);
 
   const user_id = localStorage.getItem("token");
+
+  const handleUnrsvp = async (id) => {
+    try {
+      await deleteReservation(id);
+      fetchReservations();
+    } catch (error) {
+      console.error("Error deleting reservation:", error);
+    }
+  };
 
   const fetchReservations = async () => {
     try {
@@ -50,11 +59,21 @@ function Booked() {
                 key={reservation.id}
                 className="bg-white border-b border-gray-200"
               >
-                <td className="px-6 py-4 justify-center text-center">{reservation.event_id.name}</td>
-                <td className="px-6 py-4 justify-center text-center">{reservation.event_id.date}</td>
-                <td className="px-6 py-4 justify-center text-center">{reservation.event_id.time}</td>
-                <td className="px-6 py-4 justify-center text-center">{reservation.event_id.venue}</td>
-                <td className="px-6 py-4 justify-center text-center">{reservation.event_id.category}</td>
+                <td className="px-6 py-4 justify-center text-center">
+                  {reservation.event_id.name}
+                </td>
+                <td className="px-6 py-4 justify-center text-center">
+                  {reservation.event_id.date}
+                </td>
+                <td className="px-6 py-4 justify-center text-center">
+                  {reservation.event_id.time}
+                </td>
+                <td className="px-6 py-4 justify-center text-center">
+                  {reservation.event_id.venue}
+                </td>
+                <td className="px-6 py-4 justify-center text-center">
+                  {reservation.event_id.category}
+                </td>
                 <td className="px-6 py-4 items-center justify-center flex">
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-blue"

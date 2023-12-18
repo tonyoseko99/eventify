@@ -39,3 +39,10 @@ export const getReservationsByUser = async (id) => {
   const response = await fetch(`${BASE_URL}/list/users/${id}`);
   return response.json();
 };
+
+// show all reservations by user_id and event_id (if reservation has been made)
+export const getReservationByUserAndEvent = async (user_id, event_id) => {
+  const response = await fetch(`${BASE_URL}/list/users/${user_id}/events/${event_id}`);
+  return response.json();
+};
+

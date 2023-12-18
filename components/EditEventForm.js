@@ -15,6 +15,7 @@ function EditEventForm({ event, showModal, setShowModal }) {
     description: event.description,
     image: event.image,
     time: event.time,
+    ticketPrice: event.ticketPrice,
   });
 
   const handleInputChange = (e) => {
@@ -36,12 +37,13 @@ function EditEventForm({ event, showModal, setShowModal }) {
       description: formData.description,
       image: formData.image,
       time: formData.time,
+      ticketPrice: formData.ticketPrice,
     };
 
     // add event
     addEvent(updatedEvent)
       .then((data) => {
-        console.log("Event added:", data);
+        console.log("Event updated :", data);
         router.push("/events");
         window.location.reload();
       })
@@ -70,7 +72,6 @@ function EditEventForm({ event, showModal, setShowModal }) {
         alignItems: "center",
       }}
     >
-      
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-lg flex flex-col justify-center w-1/3 shadow-lg"
@@ -197,6 +198,23 @@ function EditEventForm({ event, showModal, setShowModal }) {
             type="text"
             name="venue"
             value={formData.venue}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* ticket price */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="ticketPrice"
+          >
+            Ticket Price:
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-right"
+            type="number"
+            name="ticketPrice"
+            value={formData.ticketPrice}
             onChange={handleInputChange}
           />
         </div>

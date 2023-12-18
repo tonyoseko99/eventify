@@ -7,10 +7,14 @@ import Loader from "./Loader";
 import EditEventForm from "./EditEventForm";
 
 function EventList({ events, filteredEvents, userRole }) {
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  const handleEditClick = () => {
+
+  const handleEditClick = (id) => {
+    const eventToEdit = eventsToRender.find(event => event.id === id);
+    setSelectedEvent(eventToEdit);
     setShowModal(true);
   };
 
@@ -95,11 +99,11 @@ function EventList({ events, filteredEvents, userRole }) {
               ))}
             </tbody>
           </table>
-          {showModal && (
+          {showModal && selectedEvent &&(
             <EditEventForm
               showModal={showModal}
               setShowModal={setShowModal}
-              event={eventsToRender[0]}
+              event={selectedEvent}
             />
           )}
         </>

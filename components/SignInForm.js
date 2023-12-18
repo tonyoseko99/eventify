@@ -27,6 +27,7 @@ function SignInForm() {
         localStorage.setItem("username", data.username);
         localStorage.setItem("role", data.role);
         router.push("/");
+        
       }
     } catch (error) {
       console.log("Signin error:", error);

@@ -1,11 +1,16 @@
 "use client";
 import { useState } from "react";
 import { Alert } from "reactstrap";
-import { addReservation } from "@/api/reservations";
+import {
+  addReservation,
+  getReservationByUserAndEvent,
+} from "@/api/reservations";
 import { useRouter } from "next/navigation";
 
 const AddReservationForm = ({ event, onClose, userId }) => {
   const router = useRouter();
+
+  const [reservationMade, setReservationMade] = useState(false);
 
   const [formData, setFormData] = useState({
     event_id: "",
@@ -61,6 +66,24 @@ const AddReservationForm = ({ event, onClose, userId }) => {
     // close form
     onClose();
   };
+
+  // check if reservation has been made using the user id
+  // if reservation has been made, alert user that they have already made a reservation
+
+  const checkReservation = async () => {
+    const response = await fetch(
+      getReservationByUserAndEvent(userId, event.id)
+    );
+    const data = await response.json();
+    console.log("Reservation data:", data);
+
+    if (data.length > 0) {
+      setReservationMade(true);
+      onClose();
+    }
+  };
+
+  checkReservation();
 
   return (
     <div
@@ -137,7 +160,7 @@ const AddReservationForm = ({ event, onClose, userId }) => {
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2 mb-2"
         >
-          Submit Reservation
+          RSVP
         </button>
         {/* cancel button */}
         <button
