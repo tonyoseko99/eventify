@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { addPayment } from "@/api/payment";
 import { set } from "date-fns";
 
-function AddPaymentForm({ setShowModal, showModal, setIsAmountPaid, reservation }) {
+function AddPaymentForm({ setShowModal, showModal, setIsPaid, reservation }) {
   const userId = reservation.user_id.id;
   const reservationId = reservation.id;
   const eventId = reservation.event_id.id;
@@ -29,7 +29,7 @@ function AddPaymentForm({ setShowModal, showModal, setIsAmountPaid, reservation 
       console.log("Payment added:", data);
       alert("Payment made successfully");
       setShowModal(false);
-      setIsAmountPaid(true);
+      setIsPaid(true);
     } catch (error) {
       console.error("Error adding payment:", error);
       if (error.response) {

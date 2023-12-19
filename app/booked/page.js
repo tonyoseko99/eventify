@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { getReservationsByUser, deleteReservation } from "@/api/reservations";
-import { getPaymentById } from "@/api/payment";
+import { getAllPayments } from "@/api/payment";
 import Loader from "@/components/Loader";
 import Link from "next/link";
 import AddPaymentForm from "@/components/AddPaymentForm";
@@ -9,24 +9,25 @@ import { Alert } from "reactstrap";
 import { is } from "date-fns/locale";
 
 function Booked() {
-  const [payment, setPayment] = useState({});
+  const [payments, setPayments] = useState({});
   const [reservations, setReservations] = useState([]);
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [isAmountPaid, setIsAmountPaid] = useState(false);
-
-  const fetchPayment = async (id) => {
-    try {
-      const payment = await getPaymentById(id);
-      console.log("Payment :", payment);
-      setPayment(payment);
-    } catch (error) {
-      console.error("Error fetching payment:", error);
-    }
-  }
+  const [isPaid, setIsPaid] = useState({});
 
   const user_id = localStorage.getItem("token");
+
+  const fetchPayments = async () => {
+    const payments = await getAllPayments();
+    console.log(`payments: `, payments);
+    // check if payment is made
+    const paidReservations = payments.reduce((acc, payment) => {
+      acc[payment.reservation.id] = true;
+      return acc;
+    }, {});
+    setIsPaid(paidReservations);
+  };
 
   const handleUnrsvp = async (id) => {
     try {
@@ -35,6 +36,15 @@ function Booked() {
     } catch (error) {
       console.error("Error deleting reservation:", error);
     }
+  };
+
+  const handlePayment = (id) => {
+    const reservationToPay = reservations.find(
+      (reservation) => reservation.id === id
+    );
+    setSelectedReservation(reservationToPay);
+    setShowModal(true);
+    setIsPaid({ ...isPaid, [id]: false });
   };
 
   const fetchReservations = async () => {
@@ -50,21 +60,12 @@ function Booked() {
 
   useEffect(() => {
     fetchReservations();
-    fetchPayment();
-  }, []);
 
-  const handlePayment = (id) => {
-    const reservationToPay = reservations.find(
-      (reservation) => reservation.id === id
-    );
-    setSelectedReservation(reservationToPay);
-    setShowModal(true);
-  };
+    fetchPayments();
+  }, [selectedReservation]);
 
   {
-    isAmountPaid ? (
-      <Alert color="success">Payment made successfully</Alert>
-    ) : null;
+    isPaid && <Alert color="success">Payment made successfully</Alert>;
   }
 
   if (loading) {
@@ -114,7 +115,7 @@ function Booked() {
                   >
                     UnRSVP
                   </button>
-                  {isAmountPaid ? (
+                  {isPaid[reservation.id] ? (
                     <>
                       <button
                         disabled
@@ -150,7 +151,7 @@ function Booked() {
             setShowModal={setShowModal}
             showModal={showModal}
             reservation={selectedReservation}
-            setIsAmountPaid={setIsAmountPaid}
+            setIsPaid={setIsPaid}
           />
         )}
       </div>
