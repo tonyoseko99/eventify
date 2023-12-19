@@ -18,6 +18,12 @@ function Booked() {
 
   const user_id = localStorage.getItem("token");
 
+    // convert date from timestamp to string
+    const date = (timestamp) => {
+      const date = new Date(timestamp);
+      return date.toLocaleDateString("en-US");
+    };
+
   const fetchPayments = async () => {
     const payments = await getAllPayments();
     console.log(`payments: `, payments);
@@ -93,19 +99,19 @@ function Booked() {
                 key={reservation.id}
                 className="bg-white border-b border-gray-200"
               >
-                <td className="px-6 py-4 justify-center text-center">
+                <td className="px-6 py-4 justify-center text-center text-black">
                   {reservation.event_id.name}
                 </td>
-                <td className="px-6 py-4 justify-center text-center">
-                  {reservation.event_id.date}
+                <td className="px-6 py-4 justify-center text-center text-black">
+                  {date(reservation.event_id.date)}
                 </td>
-                <td className="px-6 py-4 justify-center text-center">
+                <td className="px-6 py-4 justify-center text-center text-black">
                   {reservation.event_id.time}
                 </td>
-                <td className="px-6 py-4 justify-center text-center">
+                <td className="px-6 py-4 justify-center text-center text-black">
                   {reservation.event_id.venue}
                 </td>
-                <td className="px-6 py-4 justify-center text-center">
+                <td className="px-6 py-4 justify-center text-center text-black">
                   {reservation.event_id.category}
                 </td>
                 <td className="px-6 py-4 items-center justify-center flex">

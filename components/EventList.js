@@ -11,6 +11,12 @@ function EventList({ events, filteredEvents, userRole }) {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
+  // convert date from timestamp to string
+  const date = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString("en-US");
+  };
+
   const handleEditClick = (id) => {
     const eventToEdit = eventsToRender.find((event) => event.id === id);
     setSelectedEvent(eventToEdit);
@@ -78,7 +84,7 @@ function EventList({ events, filteredEvents, userRole }) {
                     {event.description}
                   </td>
                   <td className="px-6 py-4 text-left text-gray-700 truncate">
-                    {event.date}
+                    {date(event.date)}
                   </td>
                   <td className="px-6 py-4 text-left text-gray-700 truncate">
                     {event.category}
@@ -133,7 +139,7 @@ function EventList({ events, filteredEvents, userRole }) {
                 <p className="text-gray-600 mb-2">{event.description}</p>
                 <p className="text-gray-600 mb-2">
                   <span className="mr-2 text-gray-400 font-light">Date:</span>{" "}
-                  {event.date}
+                  {date(event.date)}
                 </p>
                 <p className="text-gray-600 mb-2">
                   <span className="mr-2 text-gray-400 font-light">
