@@ -44,7 +44,7 @@ function ReservationList() {
   return (
     <div className="flex flex-wrap flex-col items-center justify-center w-1/2 mt-6 sm:w-full">
       <div className="flex items-center justify-between w-1/2 text-center mb-4">
-        <h1 className="text-2xl font-bold ">Available Reservations</h1>
+        <h1 className="text-2xl font-bold ">Reserved Events</h1>
       </div>
       <table className="w-1/2 bg-white shadow-lg rounded-lg striped">
         <thead className="bg-gray-200">
