@@ -61,7 +61,7 @@ function Page() {
                 {payment.id}
               </td>
               <td className="px-6 py-4 text-center text-gray-700 truncate">
-                {payment.amount}.00
+                ${payment.amount}.00
               </td>
               <td className="px-6 py-4 text-center text-gray-700 truncate">
                 {date(payment.paymentDate)}

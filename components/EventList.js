@@ -11,6 +11,12 @@ function EventList({ events, filteredEvents, userRole }) {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
+  // convert date from timestamp to string
+  const date = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString("en-US");
+  };
+
   const handleEditClick = (id) => {
     const eventToEdit = eventsToRender.find((event) => event.id === id);
     setSelectedEvent(eventToEdit);
@@ -39,7 +45,7 @@ function EventList({ events, filteredEvents, userRole }) {
   if (eventsToRender.length === 0) return <p>No events to show</p>;
 
   return (
-    <div className="flex flex-wrap justify-center max-w-4xl mt-6 sm:w-full">
+    <div className="flex flex-wrap justify-center max-w-6xl mt-6 sm:w-full">
       {userRole === "ADMIN" ? (
         <>
           <table className="w-full bg-white shadow-lg rounded-lg striped">
@@ -78,7 +84,7 @@ function EventList({ events, filteredEvents, userRole }) {
                     {event.description}
                   </td>
                   <td className="px-6 py-4 text-left text-gray-700 truncate">
-                    {event.date}
+                    {date(event.date)}
                   </td>
                   <td className="px-6 py-4 text-left text-gray-700 truncate">
                     {event.category}
@@ -117,7 +123,7 @@ function EventList({ events, filteredEvents, userRole }) {
           <Link href={`/events/${event.id}`} key={event.id}>
             <div
               className="flex flex-col p-6 mt-6 text-left border rounded-lg shadow-md hover:shadow-xl focus:shadow-xl mx-4"
-              style={{ width: "300px" }}
+              style={{ width: "300px", height: "500px"}}
             >
               <Image
                 loader={({ src, width, quality }) => {
@@ -129,11 +135,11 @@ function EventList({ events, filteredEvents, userRole }) {
                 height={150} // Update height for better image proportions
               />
               <div className="w-full pl-4 flex flex-col justify-center">
-                <h3 className="text-2xl font-bold">{event.name}</h3>
+                <h3 className="text-2xl font-bold h-5.5">{event.name}</h3>
                 <p className="text-gray-600 mb-2">{event.description}</p>
                 <p className="text-gray-600 mb-2">
                   <span className="mr-2 text-gray-400 font-light">Date:</span>{" "}
-                  {event.date}
+                  {date(event.date)}
                 </p>
                 <p className="text-gray-600 mb-2">
                   <span className="mr-2 text-gray-400 font-light">

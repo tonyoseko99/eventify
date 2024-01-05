@@ -24,6 +24,8 @@ function AddEventForm({ onClose, onAddEvent }) {
   const [description, setDescription] = useState(formData.description);
   const [ticketPrice, setTicketPrice] = useState(formData.ticketPrice);
 
+  const [error, setError] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
 

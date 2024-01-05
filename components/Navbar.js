@@ -54,10 +54,10 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-slate-200 p-6 text-black items-center justify-around">
+    <nav className="bg-gray-700 p-6 items-center justify-around">
       <div className="container mx-auto w-full">
         <ul className="flex text-xl">
-          <li className="mr-6 font-bold">
+          <li className="mr-6 font-bold text-2xl">
             <Link
               className={`link ${pathname === "/" ? "active" : ""}`}
               href="/"
@@ -114,17 +114,16 @@ function Navbar() {
           <div className="ml-auto flex items-center">
             {!isLoggedIn && (
               <li className="mr-6">
-                <Link
-                  className={`link ${pathname === "/login" ? "active" : ""}`}
-                  href="/login"
-                >
-                  Login
-                </Link>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue">
+                  <Link href="/login">Login</Link>
+                </button>
               </li>
             )}
             {isLoggedIn && (
               <>
-                <li className="mr-6">Welcome, {username}</li>
+                <li className="mr-6">
+                  Welcome, <span className="font-semibold">{username}</span>
+                </li>
                 {isAdmin && (
                   <li className="mr-6">
                     <Link href="/admin">Admin Panel</Link>
@@ -132,7 +131,9 @@ function Navbar() {
                 )}
                 <li className="mr-6">
                   <Link href="/login" onClick={handleLogout}>
-                    Logout
+                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-red">
+                      Logout
+                    </button>
                   </Link>
                 </li>
               </>

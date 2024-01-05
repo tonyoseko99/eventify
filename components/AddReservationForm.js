@@ -101,7 +101,7 @@ const AddReservationForm = ({ event, onClose, userId }) => {
     >
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col bg-white p-4 rounded-lg w-1/3 text-black"
+        className="flex flex-col bg-white p-8 rounded-lg w-1/3 text-black"
       >
         <h2 className="text-2xl font-bold mb-4">
           Add Reservation for {event.name}
@@ -122,11 +122,13 @@ const AddReservationForm = ({ event, onClose, userId }) => {
         />
         <label htmlFor="email">Email:</label>
         <input
-          type="text"
+          type="email"
           id="email"
           name="email"
+          placeholder="name@somebody.com"
           value={formData.email}
           onChange={handleInputChange}
+          required
           className="border border-gray-300 rounded-md p-2 mb-2"
         />
         <label htmlFor="state">Phone:</label>
@@ -134,8 +136,10 @@ const AddReservationForm = ({ event, onClose, userId }) => {
           type="text"
           id="phone"
           name="phone"
+          placeholder="123-456-7890"
           value={formData.phone}
           onChange={handleInputChange}
+          required
           className="border border-gray-300 rounded-md p-2 mb-2"
         />
         <label htmlFor="city">City:</label>

@@ -10,7 +10,8 @@ function SignUpForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("USER");
+  const [role, setRole] = useState("USER"); 
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +22,7 @@ function SignUpForm() {
       if (data) {
         router.push("/login");
       } else {
-        throw new Error("Something went wrong");
+        throw new Error("Password does not match");
       }
 
 
@@ -47,7 +48,7 @@ function SignUpForm() {
               Username:
             </label>
             <input
-              type="text"
+              type="email"
               id="username"
               name="username"
               value={username}
@@ -67,6 +68,7 @@ function SignUpForm() {
               type="password"
               id="password"
               name="password"
+              required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -83,6 +85,7 @@ function SignUpForm() {
               type="password"
               id="confirmPassword"
               name="confirmPassword"
+              required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

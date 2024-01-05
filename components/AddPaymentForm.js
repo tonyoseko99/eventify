@@ -30,6 +30,7 @@ function AddPaymentForm({ setShowModal, showModal, setIsPaid, reservation }) {
       alert("Payment made successfully");
       setShowModal(false);
       setIsPaid(true);
+      window.location.reload();
     } catch (error) {
       console.error("Error adding payment:", error);
       if (error.response) {
@@ -47,11 +48,11 @@ function AddPaymentForm({ setShowModal, showModal, setIsPaid, reservation }) {
         <h2 className="text-2xl font-bold mb-4">Add Payment</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="user_id" className="block font-bold mb-2">
+            {/* <label htmlFor="user_id" className="block font-bold mb-2">
               User ID
-            </label>
+            </label> */}
             <input
-              type="text"
+              type="hidden"
               readOnly
               id="user"
               name="user"
@@ -60,11 +61,11 @@ function AddPaymentForm({ setShowModal, showModal, setIsPaid, reservation }) {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="reservation_id" className="block font-bold mb-2">
+            {/* <label htmlFor="reservation_id" className="block font-bold mb-2">
               Reservation ID
-            </label>
+            </label> */}
             <input
-              type="text"
+              type="hidden"
               readOnly
               id="reservation"
               name="reservation"
@@ -73,11 +74,11 @@ function AddPaymentForm({ setShowModal, showModal, setIsPaid, reservation }) {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="event_id" className="block font-bold mb-2">
+            {/* <label htmlFor="event_id" className="block font-bold mb-2">
               Event ID
-            </label>
+            </label> */}
             <input
-              type="text"
+              type="hidden"
               readOnly
               id="event"
               name="event"

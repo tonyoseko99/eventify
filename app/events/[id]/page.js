@@ -11,6 +11,12 @@ function EventPage({ params }) {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // convert date from timestamp to string
+  const date = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString("en-US");
+  };
+
   useEffect(() => {
     getEventById(params.id).then((data) => setEvent(data));
     setLoading(false);
@@ -49,19 +55,19 @@ function EventPage({ params }) {
           <p className="text-gray-600 mb-2">{event.description}</p>
           <div className="flex items-center mb-2">
             <span className="text-gray-600 font-semibold">Date:</span>
-            <span className="ml-2 text-gray-600">{event.date}</span>
+            <span className="ml-2 text-gray-600">{date(event.date)}</span>
             <span className="ml-2 text-gray-600 font-semibold">Time:</span>
             <span className="ml-2 text-gray-600">{event.time}</span>
           </div>
           <p className="text-gray-600 mb-2">{event.venue}</p>
           <div className="flex justify-start mt-4">
             {/* {loggedInUser && ( */}
-              <button
-                className="event-btn register-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleRegisterClick}
-              >
-                Register
-              </button>
+            <button
+              className="event-btn register-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={handleRegisterClick}
+            >
+              Register
+            </button>
             {/* )} */}
             <Link href={`/events`}>
               <button className="event-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-4">
