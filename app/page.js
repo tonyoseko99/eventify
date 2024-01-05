@@ -68,7 +68,7 @@ export default function Home() {
             <a
               href="/events"
               onClick={handleLinkClick}
-              className="p-6 mt-6 text-left border w-96 rounded-xl hover:bg-gray-200 hover:text-blue-600 transition-colors focus:bg-gray-100 focus:text-blue-600"
+              className="p-6 mt-6 text-left border w-96 rounded-xl hover:bg-gray-200 hover:text-white transition-colors focus:bg-gray-100 focus:text-blue-600"
             >
               <h3 className="text-2xl font-bold sm:text-3xl">
                 Events &rarr;

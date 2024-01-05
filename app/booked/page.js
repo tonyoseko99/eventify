@@ -7,6 +7,7 @@ import Link from "next/link";
 import AddPaymentForm from "@/components/AddPaymentForm";
 import { Alert } from "reactstrap";
 import { is } from "date-fns/locale";
+import MpesaPaymentForm from "@/components/MpesaPaymentForm";
 
 function Booked() {
   const [payments, setPayments] = useState({});
@@ -18,11 +19,11 @@ function Booked() {
 
   const user_id = localStorage.getItem("token");
 
-    // convert date from timestamp to string
-    const date = (timestamp) => {
-      const date = new Date(timestamp);
-      return date.toLocaleDateString("en-US");
-    };
+  // convert date from timestamp to string
+  const date = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString("en-US");
+  };
 
   const fetchPayments = async () => {
     const payments = await getAllPayments();
@@ -114,9 +115,9 @@ function Booked() {
                 <td className="px-6 py-4 justify-center text-center text-black">
                   {reservation.event_id.category}
                 </td>
-                <td className="px-6 py-4 items-center justify-center flex">
+                <td className="px-6 py-4 items-center justify-start flex">
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-blue"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue"
                     onClick={() => handleUnrsvp(reservation.id)}
                   >
                     UnRSVP
@@ -125,7 +126,7 @@ function Booked() {
                     <>
                       <button
                         disabled
-                        className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-gray"
+                        className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-gray"
                         // onClick={() => handlePayment(reservation.id)}
                       >
                         PAID
@@ -134,14 +135,14 @@ function Booked() {
                       <Link
                         href={`/ticket/${reservation.event_id.id}/${reservation.id}`}
                       >
-                        <button className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-green">
+                        <button className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green">
                           TICKET
                         </button>
                       </Link>
                     </>
                   ) : (
                     <button
-                      className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-gray"
+                      className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-gray"
                       onClick={() => handlePayment(reservation.id)}
                     >
                       PAY
@@ -153,7 +154,13 @@ function Booked() {
           </tbody>
         </table>
         {showModal && (
-          <AddPaymentForm
+          // <AddPaymentForm
+          //   setShowModal={setShowModal}
+          //   showModal={showModal}
+          //   reservation={selectedReservation}
+          //   setIsPaid={setIsPaid}
+          // />
+          <MpesaPaymentForm
             setShowModal={setShowModal}
             showModal={showModal}
             reservation={selectedReservation}
