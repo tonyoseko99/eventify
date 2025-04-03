@@ -118,10 +118,10 @@ export default function Page() {
           >
             Add Event
           </button>
-        )}
+         )}
       </div>
       <div className="flex flex-col items-center justify-between w-full flex-1 px-20 text-center">
-        <EventList events={events} filteredEvents={searchEvents} userRole={userRole}/>
+        <EventList events={events} filteredEvents={searchEvents} userRole={loggedInUser}/>
         {/* modal form */}
         {showModal && (
           <AddEventForm

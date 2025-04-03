@@ -1,12 +1,12 @@
-const BASE_URL = "http://localhost:8080/bookings/rest/auth";
+const BASE_URL = "http://localhost:8080/api/v1/auth";
 
-export const signup = async (username, password, confirmPassword, role) => {
+export const signup = async (firstName, lastName, email, password, role) => {
   const response = await fetch(`${BASE_URL}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, password, confirmPassword, role }),
+    body: JSON.stringify({ firstName, lastName, email, password, role }),
   });
 
   if (response.ok) {
@@ -17,13 +17,13 @@ export const signup = async (username, password, confirmPassword, role) => {
   }
 };
 
-export const signin = async (username, password) => {
+export const signin = async (email, password) => {
   const response = await fetch(`${BASE_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ email, password }),
   });
 
   if (response.ok) {

@@ -3,35 +3,41 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { signin } from "@/api/auth";
 import { useRouter } from "next/navigation";
+import { is } from "date-fns/locale";
 
-function SignInForm() {
-  const router = useRouter();
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+function SignInForm({ isLoggedIn, token, onLogin, onLogout }) {
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const username = e.target.username.value;
-    const password = e.target.password.value;
-    console.log("Username:", username);
-    console.log("Password:", password);
-
     try {
-      const data = await signin(username, password);
-      console.log("Signin response:", data);
+      const response = await fetch("http://localhost:8080/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        Authorization: `Bearer ${token}`,
+        body: JSON.stringify(formData),
+      });
 
-      if (data) {
-        localStorage.setItem("token", data.id);
-        localStorage.setItem("username", data.username);
-        localStorage.setItem("role", data.role);
-        router.push("/");
-        
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Invalid credentials!");
+      }
+
+      if (data.token) {
+        onLogin(data.token);
+        isLoggedIn(true);
+        setError("");
+      } else {
+        setError("Invalid credentials!");
       }
     } catch (error) {
-      console.log("Signin error:", error);
-      setError("Invalid username or password");
+      setError(error.message);
     }
   };
 
@@ -46,14 +52,14 @@ function SignInForm() {
               htmlFor="email"
               className="block text-gray-700 text-sm font-bold mb-2"
             >
-              Username:
+              Email:
             </label>
             <input
               type="email"
-              id="username"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="name@somebody.com"
               required
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -71,9 +77,9 @@ function SignInForm() {
               type="password"
               id="password"
               name="password"
-              value={password}
+              value={formData.password}
               placeholder="********"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>

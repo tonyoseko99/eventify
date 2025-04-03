@@ -1,5 +1,6 @@
 // api/reservations.js
-const BASE_URL = "http://localhost:8080/bookings/rest/reservations";
+const BASE_URL = "http://localhost:8080/api/v1/bookings";
+const token = localStorage.getItem("token");
 
 export const getAllReservations = async () => {
   const response = await fetch(`${BASE_URL}/list`);
@@ -11,13 +12,13 @@ export const getReservationById = async (id) => {
   return response.json();
 };
 
-export const addReservation = async (reservation) => {
-  const response = await fetch(`${BASE_URL}/add`, {
+export const addReservation = async (eventId) => {
+  const response = await fetch(`${BASE_URL}/${eventId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(reservation),
   });
 
   if (!response.ok) {
